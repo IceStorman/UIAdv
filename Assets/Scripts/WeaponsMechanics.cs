@@ -9,11 +9,21 @@ public class WeaponsMechanics : MonoBehaviour
     [SerializeField] private Text playerHPText;
     [SerializeField] private Text enemyHPText;
 
+    [SerializeField] private GameObject knife;
+    [SerializeField] private GameObject pistol;
+    [SerializeField] private GameObject sniperWeapon;
+
     [SerializeField] private int playerHP = 100;
     [SerializeField] private int enemyHP = 100;
 
     private bool isPlayerMove = true;
     private bool isGameEnd = false;
+    private bool isPlayerKnife = false;
+    private bool isPlayerPistol = false;
+    private bool isPlayerSniperWeapon = false;
+    private bool isEnemyKnife = false;
+    private bool isEnemyPistol = false;
+    private bool isEnemySniperWeapon = false;
 
     private void Update()
     {
@@ -30,12 +40,42 @@ public class WeaponsMechanics : MonoBehaviour
         {
             combatLog.text = "You have been killed";
             isGameEnd = true;
+            if (isEnemyKnife)
+            {
+                AllImagesOff();
+                knife.SetActive(true);
+            }
+            else if (isEnemyPistol)
+            {
+                AllImagesOff();
+                pistol.SetActive(true);
+            }
+            else if (isEnemySniperWeapon)
+            {
+                AllImagesOff();
+                sniperWeapon.SetActive(true);
+            }
         }
         
         if(enemyHP <= 0)
         {
             combatLog.text = "You have killed enemy";
             isGameEnd = true;
+            if (isPlayerKnife)
+            {
+                AllImagesOff();
+                knife.SetActive(true);
+            }
+            else if (isPlayerPistol)
+            {
+                AllImagesOff();
+                pistol.SetActive(true);
+            }
+            else if (isPlayerSniperWeapon)
+            {
+                AllImagesOff();
+                sniperWeapon.SetActive(true);
+            }
         }
 
         if (!isPlayerMove && !isGameEnd)
@@ -52,6 +92,8 @@ public class WeaponsMechanics : MonoBehaviour
                     playerHPText.text = playerHP.ToString();
                 }
 
+                AllWeaponsFalse();
+                isEnemyKnife = true;
                 isPlayerMove = true;
             }
             else if(rnd == 2)
@@ -73,6 +115,9 @@ public class WeaponsMechanics : MonoBehaviour
                     playerHP -= 15;
                     playerHPText.text = playerHP.ToString();
                 }
+
+                AllWeaponsFalse();
+                isEnemyPistol = true;
                 isPlayerMove = true;
             }
             else if(rnd == 3)
@@ -94,6 +139,9 @@ public class WeaponsMechanics : MonoBehaviour
                     playerHP -= 35;
                     playerHPText.text = playerHP.ToString();
                 }
+
+                AllWeaponsFalse();
+                isEnemySniperWeapon = true;
                 isPlayerMove = true;
             }
         }
@@ -121,6 +169,8 @@ public class WeaponsMechanics : MonoBehaviour
                 enemyHPText.text = enemyHP.ToString();
             }
 
+            AllWeaponsFalse();
+            isPlayerKnife = true;
             isPlayerMove = false;
         }
     }
@@ -146,6 +196,9 @@ public class WeaponsMechanics : MonoBehaviour
                 enemyHP -= 15;
                 enemyHPText.text = enemyHP.ToString();
             }
+
+            AllWeaponsFalse();
+            isPlayerPistol = true;
             isPlayerMove = false;
         }
     }
@@ -171,7 +224,27 @@ public class WeaponsMechanics : MonoBehaviour
                 enemyHP -= 35;
                 enemyHPText.text = enemyHP.ToString();
             }
+
+            AllWeaponsFalse();
+            isPlayerSniperWeapon = true;
             isPlayerMove = false;
         }
+    }
+
+    private void AllWeaponsFalse()
+    {
+        isPlayerKnife = false;
+        isPlayerPistol = false;
+        isPlayerSniperWeapon = false;
+        isEnemyKnife = false;
+        isEnemyPistol = false;
+        isEnemySniperWeapon = false;
+    }
+
+    private void AllImagesOff()
+    {
+        knife.SetActive(false);
+        pistol.SetActive(false);
+        sniperWeapon.SetActive(false);
     }
 }
