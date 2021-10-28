@@ -3,6 +3,8 @@ using UnityEngine.UI;
 
 public class WeaponsMechanics : MonoBehaviour
 {
+    [SerializeField] private GameObject playAgainButton;
+
     [SerializeField] private Text combatLog;
     [SerializeField] private Text playerHPText;
     [SerializeField] private Text enemyHPText;
@@ -15,6 +17,15 @@ public class WeaponsMechanics : MonoBehaviour
 
     private void Update()
     {
+        if (!isGameEnd)
+        {
+            playAgainButton.SetActive(false);
+        }
+        else if (isGameEnd)
+        {
+            playAgainButton.SetActive(true);
+        }
+
         if(playerHP <= 0)
         {
             combatLog.text = "You have been killed";
@@ -86,6 +97,16 @@ public class WeaponsMechanics : MonoBehaviour
                 isPlayerMove = true;
             }
         }
+    }
+
+    public void PlayAgain()
+    {
+        playerHP = 100;
+        playerHPText.text = playerHP.ToString();
+        enemyHP = 100;
+        enemyHPText.text = enemyHP.ToString();
+        isGameEnd = false;
+        isPlayerMove = true;
     }
 
     public void KnifeMechanic()
